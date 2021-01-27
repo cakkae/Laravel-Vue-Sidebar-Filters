@@ -9,10 +9,10 @@ class Product extends Model
     protected $fillable = ['category_id', 'name', 'description', 'price', 'manufacturer_id'];
 
     const PRICES = [
-        'Less than 50',
-        'From 50 to 100',
-        'From 100 to 500',
-        'More than 500',
+        'Manje od 50KM',
+        'Od 50KM do 100KM',
+        'Od 100KM do 500KM',
+        'Više od 500KM',
     ];
 
     public function category()

@@ -14,7 +14,7 @@ class AddRelationshipFieldToProductsTable extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->foreignId('manufacturer_id')->constrained();
+            // $table->foreignId('manufacturer_id')->constrained();
         });
     }
 

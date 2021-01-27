@@ -115,3 +115,85 @@ table.dataTable thead .sorting_desc {
 .form-check.is-invalid ~ .invalid-feedback {
     display: block;
 }
+
+/* Accordion */
+.badger-accordion__header .js-badger-accordion-header .badger-accordion-toggle {
+    padding: 10px;
+    padding-left: 20px;
+    border-radius: 10px;
+    background-color: darkcyan !important;
+    color: white;
+}
+
+button[type="button"]{
+    outline:none !important;
+}
+
+button[type="button"]::-moz-focus-inner {
+    border: 0 !important;
+}
+
+.badger-accordion__header .js-badger-accordion-header .badger-accordion-toggle 
+{
+    outline:none !important;
+    border: 0 !important;
+}
+
+.js-badger-accordion-panel-inner {
+    margin-left: 15px;
+}
+
+
+/* HEADER */
+.navbar {
+    background-color: darkcyan;
+}
+
+/* CARD PRODUCT */
+.param {
+    margin-bottom: 7px;
+    line-height: 1.4;
+}
+.param-inline dt {
+    display: inline-block;
+}
+.param dt {
+    margin: 0;
+    margin-right: 7px;
+    font-weight: 600;
+}
+.param-inline dd {
+    vertical-align: baseline;
+    display: inline-block;
+}
+
+.param dd {
+    margin: 0;
+    vertical-align: baseline;
+} 
+
+.shopping-cart-wrap .price {
+    color: #008b8b;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 5px;
+    display: block;
+}
+var {
+    font-style: normal;
+}
+
+.media img {
+    margin-right: 1rem;
+}
+.img-sm {
+    width: 90px;
+    max-height: 75px;
+    object-fit: cover;
+}
+.table-fit {
+    width: 1px;
+}
+.btn-primary {
+    background: #008b8b !important;
+}

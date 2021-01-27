@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::withCount(['products' => function ($query) {
+        $categories = Category::where('parent_id','<>','0')->withCount(['products' => function ($query) {
                 $query->withFilters(
                     request()->input('prices', []),
                     request()->input('categories', []),
@@ -19,7 +19,20 @@ class CategoryController extends Controller
                 );
             }])
             ->get();
-
         return CategoryResource::collection($categories);
     }
+
+    public function parents()
+    {
+        $categories = Category::where('parent_id',0)->withCount(['products' => function ($query) {
+            $query->withFilters(
+                request()->input('prices', []),
+                request()->input('categories', []),
+                request()->input('manufacturers', [])
+            );
+        }])
+        ->get();
+        return CategoryResource::collection($categories);
+    }
+
 }

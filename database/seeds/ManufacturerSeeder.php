@@ -11,6 +11,6 @@ class ManufacturerSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Manufacturer::class, 5)->create();
+        // factory(\App\Manufacturer::class, 5)->create();
     }
 }

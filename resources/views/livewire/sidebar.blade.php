@@ -21,13 +21,4 @@
         </div>
     @endforeach
 
-    <h3 class="mt-2">Manufacturers</h3>
-    @foreach($manufacturers as $index => $manufacturer)
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="manufacturer{{ $index }}" value="{{ $manufacturer->id }}" wire:model="selected.manufacturers">
-            <label class="form-check-label" for="manufacturer{{ $index }}">
-                {{ $manufacturer['name'] }} ({{ $manufacturer['products_count'] }})
-            </label>
-        </div>
-    @endforeach
 </div>
