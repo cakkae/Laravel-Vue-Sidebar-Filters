@@ -16,15 +16,15 @@
                 <div v-for="(parent, index) in parents">
                     <badger-accordion>
                         <badger-accordion-item>
-                            <template slot="header">{{ parent.name }}</template>    
+                            <template slot="header">{{ parent.name }}</template>
                             <template slot="content" v-for="(category, index) in categories" v-if="(category.parent_id == parent.id)">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" :value="category.id" :id="'category'+index" v-model="selected.categories">
                                     <label class="form-check-label" :for="'category' + index">
                                         {{ category.name }} ({{ category.products_count }})
                                     </label>
-                                </div> 
-                            </template>  
+                                </div>
+                            </template>
                             <template slot="content" v-else>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" :value="parent.id" :id="'parent'+index" v-model="selected.categories">
@@ -58,16 +58,16 @@
                                             <dd>Ime kategorije</dd>
                                         </dl>
                                     </td>
-                                    <td> 
-                                        <input type="number" name="quantity" id="quantity" min="0" value="0" class="form-control quantity">
+                                    <td>
+                                        <input type="number" v-model="product.qty" class="form-control quantity">
                                     </td>
-                                    <td> 
-                                        <div class="price-wrap"> 
-                                            <var class="price">{{ product.price+' KM' }} </var> 
-                                        </div> 
+                                    <td>
+                                        <div class="price-wrap">
+                                            <var class="price">{{ product.price+' KM' }} </var>
+                                        </div>
                                     </td>
-                                    <td> 
-                                        <button type="button" class="btn-primary btn btn-block">
+                                    <td>
+                                        <button type="button" class="btn-primary btn btn-block" @click="addToCart(product)">
                                             <i class="fal fa-shopping-cart"></i>
                                         </button>
                                     </td>
@@ -77,17 +77,97 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 mb-4 text-center my-auto">
-                <h4>
-                    <i class="fal fa-shopping-cart fa-3x"></i>
-                </h4>
-                <h4>Vaša korpa je prazna</h4>
+            <div class="col-lg-3 mb-4">
+                <shopping-cart inline-template :items="cartItems">
+                  <div>
+                    <div class="row mt-4" v-for="(item, index) in items" >
+                        <div class="col-md-12">
+                            <h6 class="title">{{ item.name }}</h6>
+                        </div>
+                        <div class="col-md-8">
+                            <input v-model="item.qty" class="form-control input-qty" type="number">
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn-danger btn btn-block" @click="removeItem(index)">
+                                <i class="fal fa-trash"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-12">
+                            <strong>Ukupno: {{item.price | formatCurrency}} KM x {{item.qty | formatCurrency}}</strong>
+                        </div>
+                    </div>
+                    <div class="row mt-4 text-center" v-show="items.length === 0">
+                        <div class="col-md-12">
+                            <h4>
+                                <i class="fal fa-shopping-cart fa-3x"></i>
+                            </h4>
+                            <h4>Vaša korpa je prazna</h4>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row mt-4" v-show="items.length > 0">
+                        <div class="col-md-4">
+                            <h4>Ukupno:</h4>
+                        </div>
+                        <div class="col-md-8">
+                            <h4>{{Total | formatCurrency}} KM</h4>
+                        </div>
+                    </div>
+                  </div>
+                  <!-- /.container -->
+               </shopping-cart>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+
+function formatNumber(n, c, d, t) {
+	var c = isNaN((c = Math.abs(c))) ? 2 : c,
+		d = d === undefined ? "." : d,
+		t = t === undefined ? "," : t,
+		s = n < 0 ? "-" : "",
+		i = String(parseInt((n = Math.abs(Number(n) || 0).toFixed(c)))),
+		j = (j = i.length) > 3 ? j % 3 : 0;
+	return (
+		s +
+		(j ? i.substr(0, j) + t : "") +
+		i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) +
+		(c
+			? d +
+			  Math.abs(n - i)
+					.toFixed(c)
+					.slice(2)
+			: "")
+	);
+}
+
+// Allow the formatNumber function to be used as a filter
+Vue.filter("formatCurrency", function (value) {
+	return formatNumber(value, 2, ".", ",");
+});
+
+Vue.component("shopping-cart", {
+	props: ["items"],
+
+	computed: {
+		Total() {
+			let total = 0;
+			this.items.forEach((item) => {
+				total += item.price * item.price;
+			});
+			return total;
+		}
+	},
+
+	methods: {
+		// Remove item by its index
+		removeItem(index) {
+			this.items.splice(index, 1);
+		}
+	}
+});
     export default {
         data: function () {
             return {
@@ -97,6 +177,7 @@
                 manufacturers: [],
                 products: [],
                 loading: true,
+                cartItems: [],
                 selected: {
                     prices: [],
                     categories: [],
@@ -122,6 +203,7 @@
                     this.loadManufacturers();
                     this.loadPrices();
                     this.loadProducts();
+                    this.addToCart();
                 },
                 deep: true
             }
@@ -140,6 +222,19 @@
                     });
             },
 
+            addToCart(itemToAdd) {
+                let found = false;
+                let itemInCart = this.cartItems.filter(item => item.id===itemToAdd.id);
+                let isItemInCart = itemInCart.length > 0;
+
+                if (isItemInCart === false) {
+                    this.cartItems.push(Vue.util.extend({}, itemToAdd));
+                } else
+                {
+                    itemInCart[0].qty += itemToAdd.qty;
+                }
+            },
+
             loadParents: function () {
                 axios.get('/api/parents', {
                         params: _.omit(this.selected, 'parents')
@@ -151,7 +246,7 @@
                         console.log(error);
                     });
             },
-            
+
             /*loadsubCategories: function () {
                 axios.get('/api/subCategories', {
                         params: _.omit(this.selected, 'subCategories')

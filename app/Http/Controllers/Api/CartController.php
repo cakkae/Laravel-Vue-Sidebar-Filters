@@ -11,8 +11,7 @@ class CartController extends Controller
 
     public function __construct()
     {
-        $user_id = 1;
-        $this->user = User::where('id',$user_id)->get()->first();
+        $this->user = Auth::user();
     }
 
     public function cart()  {
@@ -20,6 +19,8 @@ class CartController extends Controller
     }
 
     public function add(Request $request){
+        $cart = json_decode(request('cart'));
+        dd($cart);
         \Cart::session($this->user->id)->add(array(
             'id' => '1',
             'name' => 'TEst',
