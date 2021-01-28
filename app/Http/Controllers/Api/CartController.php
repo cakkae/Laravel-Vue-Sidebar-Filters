@@ -8,26 +8,19 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->user = Auth::user();
-    }
-
     public function cart()  {
         return \Cart::session($this->user->id)->getContent();
     }
 
     public function add(Request $request){
-        $cart = json_decode(request('cart'));
-        dd($cart);
-        \Cart::session($this->user->id)->add(array(
-            'id' => '1',
-            'name' => 'TEst',
-            'price' => 55,
-            'quantity' => 44,
+        dd(auth()->guard('api')->user());
+        \Cart::session()->add(array(
+            'id' => $request->id,
+            'name' => $request->name,
+            'price' => $request->price,
+            'quantity' => $request->qty,
         ));
-        return \Cart::session($this->user->id)->getContent();
+        return response()->json("ok");
     }
 
     public function remove(Request $request){

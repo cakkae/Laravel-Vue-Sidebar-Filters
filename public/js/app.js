@@ -2051,7 +2051,7 @@ Vue.component("shopping-cart", {
     Total: function Total() {
       var total = 0;
       this.items.forEach(function (item) {
-        total += item.price * item.price;
+        total += item.price * item.qty;
       });
       return total;
     }
@@ -2114,6 +2114,8 @@ Vue.component("shopping-cart", {
       });
     },
     addToCart: function addToCart(itemToAdd) {
+      var _this2 = this;
+
       var found = false;
       var itemInCart = this.cartItems.filter(function (item) {
         return item.id === itemToAdd.id;
@@ -2122,17 +2124,26 @@ Vue.component("shopping-cart", {
 
       if (isItemInCart === false) {
         this.cartItems.push(Vue.util.extend({}, itemToAdd));
+        axios.post('/api/add', itemToAdd).then(function (response) {
+          return _this2.cartItems.push(Vue.util.extend({}, itemToAdd));
+        })["catch"](function (error) {
+          console.log(error);
+        });
       } else {
-        itemInCart[0].qty += itemToAdd.qty;
+        axios.post('/api/add', itemToAdd).then(function (response) {
+          return itemInCart[0].qty += itemToAdd.qty;
+        })["catch"](function (error) {
+          console.log(error);
+        });
       }
     },
     loadParents: function loadParents() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.get('/api/parents', {
         params: _.omit(this.selected, 'parents')
       }).then(function (response) {
-        _this2.parents = response.data.data;
+        _this3.parents = response.data.data;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2150,37 +2161,37 @@ Vue.component("shopping-cart", {
             });
     },*/
     loadProducts: function loadProducts() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.get('/api/products', {
         params: this.selected
       }).then(function (response) {
-        _this3.products = response.data.data;
-        _this3.loading = false;
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    loadManufacturers: function loadManufacturers() {
-      var _this4 = this;
-
-      axios.get('/api/manufacturers', {
-        params: _.omit(this.selected, 'manufacturers')
-      }).then(function (response) {
-        _this4.manufacturers = response.data.data;
+        _this4.products = response.data.data;
         _this4.loading = false;
       })["catch"](function (error) {
         console.log(error);
       });
     },
-    loadPrices: function loadPrices() {
+    loadManufacturers: function loadManufacturers() {
       var _this5 = this;
+
+      axios.get('/api/manufacturers', {
+        params: _.omit(this.selected, 'manufacturers')
+      }).then(function (response) {
+        _this5.manufacturers = response.data.data;
+        _this5.loading = false;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    loadPrices: function loadPrices() {
+      var _this6 = this;
 
       axios.get('/api/prices', {
         params: _.omit(this.selected, 'prices')
       }).then(function (response) {
-        _this5.prices = response.data;
-        _this5.loading = false;
+        _this6.prices = response.data;
+        _this6.loading = false;
       })["catch"](function (error) {
         console.log(error);
       });

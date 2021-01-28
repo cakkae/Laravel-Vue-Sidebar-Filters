@@ -18,13 +18,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('categories', 'Api\CategoryController@index');
-Route::get('parents', 'Api\CategoryController@parents');
-Route::get('products', 'Api\ProductController@index');
-Route::get('manufacturers', 'Api\ManufacturerController@index');
-Route::get('prices', 'Api\PriceController@index');
-Route::get('/cart', 'Api\CartController@cart');
-Route::post('/add', 'Api\CartController@add');
-Route::post('/update', 'Api\CartController@update');
-Route::post('/remove', 'Api\CartController@remove');
-Route::post('/clear', 'Api\CartController@clear');
+// Route::group(['middleware' => ['auth']], function () {
+    Route::get('categories', 'Api\CategoryController@index');
+    Route::get('parents', 'Api\CategoryController@parents');
+    Route::get('products', 'Api\ProductController@index');
+    Route::get('manufacturers', 'Api\ManufacturerController@index');
+    Route::get('prices', 'Api\PriceController@index');
+    Route::get('/cart', 'Api\CartController@cart');
+    Route::post('/add', 'Api\CartController@add');
+    Route::post('/update', 'Api\CartController@update');
+    Route::post('/remove', 'Api\CartController@remove');
+    Route::post('/clear', 'Api\CartController@clear');
+// });

@@ -155,7 +155,7 @@ Vue.component("shopping-cart", {
 		Total() {
 			let total = 0;
 			this.items.forEach((item) => {
-				total += item.price * item.price;
+				total += item.price * item.qty;
 			});
 			return total;
 		}
@@ -229,9 +229,18 @@ Vue.component("shopping-cart", {
 
                 if (isItemInCart === false) {
                     this.cartItems.push(Vue.util.extend({}, itemToAdd));
+                    axios.post('/api/add', itemToAdd)
+                        .then(response => this.cartItems.push(Vue.util.extend({}, itemToAdd)))
+                        .catch(error => {
+                            console.log(error);
+                        });
                 } else
                 {
-                    itemInCart[0].qty += itemToAdd.qty;
+                    axios.post('/api/add', itemToAdd)
+                        .then(response =>  itemInCart[0].qty += itemToAdd.qty)
+                        .catch(error => {
+                            console.log(error);
+                        });
                 }
             },
 
