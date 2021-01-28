@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'home');
+Auth::routes();
 
-Route::view('/livewire', 'livewire');
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('/shop', 'HomeController@index')->name('shop');
+

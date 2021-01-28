@@ -194,6 +194,10 @@ var {
 .table-fit {
     width: 1px;
 }
-.btn-primary {
+.btn-primary, .bg-primary {
     background: #008b8b !important;
+}
+a.navbar-brand, .navbar-brand, a.nav-link, .nav-link {
+    color: white;
+    text-decoration: none !important;
 }
