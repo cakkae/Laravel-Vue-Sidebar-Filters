@@ -212,3 +212,15 @@ a.navbar-brand, .navbar-brand, a.nav-link, .nav-link {
 .bg-secondary {
     background-color: #006E6E !important;
 }
+
+.color-primary {
+    color: #008b8b !important;
+}
+
+.cart-container {
+    background-color: #008b8b;
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    margin-top: 15px;
+}

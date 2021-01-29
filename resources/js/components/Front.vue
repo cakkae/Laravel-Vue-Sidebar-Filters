@@ -78,36 +78,34 @@
                 </table>
             </div>
             <div class="w-full sm:w-full md:w-1/2 lg:w-1/4 xl:w-1/4 mt-5 px-2">
-            <h1>Korpa</h1>
                  <shopping-cart inline-template :items="cartItems">
-                  <div>
-                      <div v-for="(item, index) in items">
+                   <div>
+                      <div v-for="(item, index) in items" class="cart-container">
                         <div class="w-full sm:w-full md:w-full lg:w-full xl:w-full mt-5 px-2">
-                            <h3>{{ item.name }}</h3>
+                            <div class="text-sm leading-5 text-white">{{ item.name }}</div>
                         </div>
-                        <div class="grid grid-cols-3 gap-4 mt-5 px-2">
+                        <div class="grid grid-cols-3 gap-4 mt-2 px-2">
                             <div class="col-span-2">
-                                <h3>{{item.price | formatCurrency}} KM x {{item.quantity | formatCurrency}}</h3>
+                                <div class="text-sm leading-5 text-white">{{item.price | formatCurrency}} KM x {{item.quantity | formatCurrency}}</div>
                             </div>
                             <div class="">
-                                <button type="button" @click="removeItem(item.id, index)" class="px-5 py-2 rounded transition duration-300 hover:bg-blue-700 hover:text-white text-white bg-red-500 focus:outline-none">
-                                    <i class="fal fa-trash"></i>
+                                <button type="button" @click="removeItem(item, index)" class="color-primary px-2 py-1 rounded transition duration-300 bg-white focus:outline-none">
+                                    <i class="fal fa-trash"></i> Izbriši
                                 </button>
                             </div>
                         </div>
-                        <div v-show="items.length === 0">
-                            <h4>
-                                <i class="fal fa-shopping-cart fa-3x"></i>
-                            </h4>
-                            <h4>Vaša korpa je prazna</h4>
                         </div>
-                        <div v-show="items.length > 0">
-                            <h2>Ukupno:</h2>
-                            <h2>{{Total | formatCurrency}} KM</h2>
-                            <button type="button" @click="removeItem(item.id, index)" class="w-full px-5 py-2 my-4 rounded transition duration-300 hover:bg-blue-700 hover:text-white text-white bg-primary focus:outline-none">
-                                <i class="fal fa-trash"></i> NARUČI
-                            </button>
-                        </div>
+                    <div v-show="items.length === 0">
+                        <h4>
+                            <i class="fal fa-shopping-cart fa-3x"></i>
+                        </h4>
+                        <h4>Vaša korpa je prazna</h4>
+                    </div>
+                    <div v-show="items.length > 0">
+                        <h3 class="bg-primary text-white mt-3 py-2 px-3" style="border-radius: 5px; font-weight: bold;">Ukupno: {{Total | formatCurrency}} KM</h3>
+                        <button type="button" @click="removeItem(item.id, index)" class="w-full px-5 py-2 my-4 rounded transition duration-300 hover:bg-blue-700 hover:text-white text-white bg-primary focus:outline-none">
+                            <i class="fal fa-trash"></i> NARUČI
+                        </button>
                     </div>
                   </div>
                   <!-- /.container -->
@@ -165,13 +163,31 @@ Vue.component("shopping-cart", {
 
 	methods: {
 		// Remove item by its index
-		removeItem(id, index) {
+		removeItem(item, index) {
              axios.post('/api/remove', {
                     user: this.$userId,
-                    id: id
+                    id: item.id
                 })
-                .then(response =>  this.items.splice(index, 1))
+                .then(response =>  {
+                    this.$notify(
+                        {
+                        group: "top",
+                        title: "Uspješno!",
+                        text: "Proizvod "+item.name+" uspješno izbrisan"
+                        },
+                        4000
+                    );
+                    this.items.splice(index, 1)
+                })
                 .catch(error => {
+                    this.$notify(
+                        {
+                        group: "bottom",
+                        title: "Greška!",
+                        text: "Dogodila se greška prilikom brisanja!"
+                        },
+                        4000
+                    );
                     console.log(error);
             });
         },
@@ -261,8 +277,14 @@ Vue.component("shopping-cart", {
                         }
                     })
                     .then((response) => {
-                        for(var i=1;i<Object.keys(response.data).length;i++)
-                            this.cartItems.push(Vue.util.extend({}, response.data[i]));
+                        // Object.keys(response.data).forEach(function(key){
+                        //     console.log(key, response.data[key])
+                        //     this.cartItems.push(Vue.util.extend({}, response.data[key]));
+                        // })
+                        Object.keys(response.data).forEach(key => {
+                            this.cartItems.push(Vue.util.extend({}, response.data[key]));
+
+                        });
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -286,7 +308,14 @@ Vue.component("shopping-cart", {
                             if(response.data.status)
                             {
                                 this.cartItems.push(Vue.util.extend({}, itemToAdd));
-                                alert(response.data.message)
+                                this.$notify(
+                                {
+                                    group: "top",
+                                    title: "Uspješno!",
+                                    text: "Proizvod "+itemToAdd.name+" uspješno dodan!"
+                                    },
+                                    4000
+                                );
                             }
                             else
                                 alert(response.data.message)
@@ -306,10 +335,27 @@ Vue.component("shopping-cart", {
                             if(response.data.status)
                             {
                                 itemInCart[0].quantity = itemToAdd.quantity
-                                alert(response.data.message)
+                                this.$notify(
+                                {
+                                    group: "top",
+                                    title: "Uspješno!",
+                                    text: "Proizvod "+itemToAdd.name+" uspješno ažuriran!"
+                                    },
+                                    4000
+                                );
                             }
                             else
-                                alert(response.data.message)
+                            {
+                                this.$notify(
+                                {
+                                    group: "bottom",
+                                    title: "Greška!",
+                                    text: "Nema dovoljno na stanju"
+                                    },
+                                    4000
+                                );
+                            }
+                                
                         })
                         .catch(error => {
                             console.log(error);
@@ -328,18 +374,6 @@ Vue.component("shopping-cart", {
                         console.log(error);
                     });
             },
-
-            /*loadsubCategories: function () {
-                axios.get('/api/subCategories', {
-                        params: _.omit(this.selected, 'subCategories')
-                    })
-                    .then((response) => {
-                        this.subCategories = response.data.data;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },*/
 
             loadProducts: function () {
                 axios.get('/api/products', {

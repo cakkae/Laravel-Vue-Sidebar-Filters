@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     @if (Auth::check())
         <meta name="user-id" content="{{ Auth::user()->id }}">
+        <meta name="user-name" content="{{ Auth::user()->name }}">
     @endif
     <title>Proxy - Shop</title>
     <!-- <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"> -->
@@ -18,7 +19,8 @@
     @livewireStyles
 </head>
 <body>
-<div id="app">
+<div id="app" class="flex flex-col h-screen justify-between">
+<notification></notification>
 <navbar></navbar>
 <!-- <nav class="relative flex flex-wrap items-center content-between py-3 px-4  bg-blue-600 top-0">
     <div class="container mx-auto sm:px-4">
@@ -75,11 +77,16 @@
     @yield('content')
 </div>
 
-<footer class="footer py-5 bg-blue-600">
+<!-- <footer class="footer py-5 bg-blue-600">
     <div class="container mx-auto sm:px-4">
         <p class="m-0 text-center text-white">Copyright &copy; ProxyShop {{ date('Y') }}</p>
     </div>
-</footer>
+</footer> -->
+
+  <footer class="bg-primary p-4 text-center" style="height: 150px;" >
+        <p class="text-center text-white" style="padding-top: 60px;">Copyright &copy; ProxyShop {{ date('Y') }}</p>
+  </footer>
+
 </div>
 
 <script src="{{ mix('js/app.js') }}"></script>

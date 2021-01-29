@@ -38,9 +38,14 @@ class CartController extends Controller
         $product = Product::where('id', $request->id)->get();
         if($product->first()->quantity >= $request->quantity)
         {
-            \Cart::session($request->user)->update($request->id,[
-                'quantity' => $request->quantity
-            ]);
+            \Cart::session($request->user)->update($request->id, 
+                array('quantity' => array(
+                        'relative' => false,
+                        'value' => $request->quantity
+                    ), 
+                )
+            );
+
             return response()->json(['status' => true, 'message' => 'Proizvod uspjesno dodan']);
         }
         else {
