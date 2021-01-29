@@ -277,10 +277,6 @@ Vue.component("shopping-cart", {
                         }
                     })
                     .then((response) => {
-                        // Object.keys(response.data).forEach(function(key){
-                        //     console.log(key, response.data[key])
-                        //     this.cartItems.push(Vue.util.extend({}, response.data[key]));
-                        // })
                         Object.keys(response.data).forEach(key => {
                             this.cartItems.push(Vue.util.extend({}, response.data[key]));
 
@@ -318,7 +314,16 @@ Vue.component("shopping-cart", {
                                 );
                             }
                             else
-                                alert(response.data.message)
+                            {
+                                this.$notify(
+                                {
+                                    group: "bottom",
+                                    title: "Greška!",
+                                    text: response.data.message
+                                    },
+                                );   
+                            }
+                                alert()
                         })
                         .catch(error => {
                             console.log(response.data.status);

@@ -2161,10 +2161,6 @@ Vue.component("shopping-cart", {
           user: this.$userId
         }
       }).then(function (response) {
-        // Object.keys(response.data).forEach(function(key){
-        //     console.log(key, response.data[key])
-        //     this.cartItems.push(Vue.util.extend({}, response.data[key]));
-        // })
         Object.keys(response.data).forEach(function (key) {
           _this3.cartItems.push(Vue.util.extend({}, response.data[key]));
         });
@@ -2197,7 +2193,15 @@ Vue.component("shopping-cart", {
               title: "Uspješno!",
               text: "Proizvod " + itemToAdd.name + " uspješno dodan!"
             }, 4000);
-          } else alert(response.data.message);
+          } else {
+            _this4.$notify({
+              group: "bottom",
+              title: "Greška!",
+              text: response.data.message
+            });
+          }
+
+          alert();
         })["catch"](function (error) {
           console.log(response.data.status);
           console.log(error);
