@@ -2031,6 +2031,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 function formatNumber(n, c, d, t) {
   var c = isNaN(c = Math.abs(c)) ? 2 : c,
       d = d === undefined ? "." : d,
@@ -2190,7 +2194,7 @@ Vue.component("shopping-cart", {
           quantity: itemToAdd.quantity
         }).then(function (response) {
           if (response.data.status) {
-            itemInCart[0].quantity += itemToAdd.quantity;
+            itemInCart[0].quantity = itemToAdd.quantity;
             alert(response.data.message);
           } else alert(response.data.message);
         })["catch"](function (error) {
@@ -40204,37 +40208,21 @@ var render = function() {
                       _vm._l(_vm.items, function(item, index) {
                         return _c("div", { staticClass: "row mt-4" }, [
                           _c("div", { staticClass: "col-md-12" }, [
-                            _c("h6", { staticClass: "title" }, [
+                            _c("h5", { staticClass: "title" }, [
                               _vm._v(_vm._s(item.name))
                             ])
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-8" }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: item.quantity,
-                                  expression: "item.quantity"
-                                }
-                              ],
-                              staticClass: "form-control input-quantity",
-                              attrs: { type: "number" },
-                              domProps: { value: item.quantity },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    item,
-                                    "quantity",
-                                    $event.target.value
+                            _c("strong", [
+                              _vm._v(
+                                _vm._s(_vm._f("formatCurrency")(item.price)) +
+                                  " KM x " +
+                                  _vm._s(
+                                    _vm._f("formatCurrency")(item.quantity)
                                   )
-                                }
-                              }
-                            })
+                              )
+                            ])
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-4" }, [
@@ -40250,19 +40238,6 @@ var render = function() {
                               },
                               [_c("i", { staticClass: "fal fa-trash" })]
                             )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-12" }, [
-                            _c("strong", [
-                              _vm._v(
-                                "Ukupno: " +
-                                  _vm._s(_vm._f("formatCurrency")(item.price)) +
-                                  " KM x " +
-                                  _vm._s(
-                                    _vm._f("formatCurrency")(item.quantity)
-                                  )
-                              )
-                            ])
                           ])
                         ])
                       }),
@@ -40310,6 +40285,22 @@ var render = function() {
                             ])
                           ])
                         ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.items.length > 0,
+                              expression: "items.length > 0"
+                            }
+                          ],
+                          staticClass: "row mt-4"
+                        },
+                        [_vm._m(2)]
                       )
                     ],
                     2
@@ -40334,6 +40325,25 @@ var render = function() {
                     var _c = _vm._self._c || _h
                     return _c("div", { staticClass: "col-md-4" }, [
                       _c("h4", [_vm._v("Ukupno:")])
+                    ])
+                  },
+                  function() {
+                    var _vm = this
+                    var _h = _vm.$createElement
+                    var _c = _vm._self._c || _h
+                    return _c("div", { staticClass: "col-md-12" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary btn-block",
+                          attrs: { type: "button" }
+                        },
+                        [
+                          _vm._v(
+                            "\n                            NARUČITE\n                        "
+                          )
+                        ]
+                      )
                     ])
                   }
                 ]

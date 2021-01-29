@@ -82,18 +82,15 @@
                   <div>
                     <div class="row mt-4" v-for="(item, index) in items" >
                         <div class="col-md-12">
-                            <h6 class="title">{{ item.name }}</h6>
+                            <h5 class="title">{{ item.name }}</h5>
                         </div>
                         <div class="col-md-8">
-                            <input v-model="item.quantity" class="form-control input-quantity" type="number">
+                            <strong>{{item.price | formatCurrency}} KM x {{item.quantity | formatCurrency}}</strong>
                         </div>
                         <div class="col-md-4">
                             <button class="btn-danger btn btn-block" @click="removeItem(item.id, index)">
                                 <i class="fal fa-trash"></i>
                             </button>
-                        </div>
-                        <div class="col-md-12">
-                            <strong>Ukupno: {{item.price | formatCurrency}} KM x {{item.quantity | formatCurrency}}</strong>
                         </div>
                     </div>
                     <div class="row mt-4 text-center" v-show="items.length === 0">
@@ -111,6 +108,13 @@
                         </div>
                         <div class="col-md-8">
                             <h4>{{Total | formatCurrency}} KM</h4>
+                        </div>
+                    </div>
+                    <div class="row mt-4" v-show="items.length > 0">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-primary btn-block">
+                                NARUČITE
+                            </button>
                         </div>
                     </div>
                   </div>
@@ -300,7 +304,7 @@ Vue.component("shopping-cart", {
                         .then((response) => {
                             if(response.data.status)
                             {
-                                itemInCart[0].quantity += itemToAdd.quantity
+                                itemInCart[0].quantity = itemToAdd.quantity
                                 alert(response.data.message)
                             }
                             else
