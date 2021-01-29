@@ -1,8 +1,21 @@
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind forms;
 
-// Variables
-@import 'variables';
-
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@layer base {
+    h1 {
+        @apply text-2xl;
+        font-weight: bold;
+        color: #008b8b;
+    }
+    h2 {
+        @apply text-xl;
+        font-weight: bold;
+        color: #008b8b;
+    }
+    h3 {
+        @apply text-lg;
+        color: #008b8b;
+    }   
+}

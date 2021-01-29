@@ -1,19 +1,18 @@
 <template>
-    <div class="container-fluid" :class="{'loading': loading}">
-        <div class="row">
-            <div class="col-lg-3 mb-4">
-                <h1 class="mt-4">Filteri</h1>
-
-                <h3 class="mt-2">Cijena</h3>
-                <div class="form-check" v-for="(price, index) in prices">
+    <div class="flex flex-wrap mx-8 my-8 container" :class="{'loading': loading}">
+            <div class="w-full sm:w-full md:w-1/2 lg:w-1/4 xl:w-1/4 mt-5 px-2">
+                <h1>Filteri</h1>
+                <h2 class="mx-4 my-2">Cijena</h2>
+                <hr/>
+                <div class="form-check mx-4 my-2" v-for="(price, index) in prices">
                     <input class="form-check-input" type="checkbox" :value="index" :id="'price'+index" v-model="selected.prices">
                     <label class="form-check-label" :for="'price' + index">
                         {{ price.name }} ({{ price.products_count }})
                     </label>
                 </div>
-
-                <h3 class="mt-2">Kategorije</h3>
-                <div v-for="(parent, index) in parents">
+                <h2 class="mx-4 my-2">Kategorije</h2>
+                <hr/>
+                <div class="mx-4 my-2" v-for="(parent, index) in parents">
                     <badger-accordion>
                         <badger-accordion-item>
                             <template slot="header">{{ parent.name }}</template>
@@ -37,83 +36,76 @@
                     </badger-accordion>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="row mt-4">
-                    <div class="card">
-                        <table class="table table-hover shopping-cart-wrap">
-                            <thead class="text-muted">
-                                <tr>
-                                    <th scope="col" width="50%">Proizvod</th>
-                                    <th scope="col" width="10%">Kolicina</th>
-                                    <th scope="col" width="20%">Cijena</th>
-                                    <th scope="col" width="20%">Akcija</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="product in products">
-                                    <td>
-                                        <h6 class="title">{{ product.name }}</h6>
-                                        <dl class="param param-inline small">
-                                            <dt>Kategorija:</dt>
-                                            <dd>Ime kategorije</dd>
-                                        </dl>
-                                    </td>
-                                    <td>
-                                        <input type="number" v-model="product.quantity" class="form-control quantity">
-                                    </td>
-                                    <td>
-                                        <div class="price-wrap">
-                                            <var class="price">{{ product.price+' KM' }} </var>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <button type="button" ref="updateButton" class="btn-primary btn btn-block" @click="addToCart(product)">
-                                            <i class="fal fa-shopping-cart"></i>
+            <div class="w-full sm:w-full md:w-full lg:w-1/2 xl:w-1/2 mt-5 px-2">
+            <h1>Proizvodi</h1>
+                <table class="min-w-full">
+                    <thead>
+                        <tr>
+                            <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">Proizvod</th>
+                            <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">Kolicina</th>
+                            <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">Cijena</th>
+                            <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">Akcija</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white">
+                        <tr v-for="product in products">
+                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                                <div class="text-sm leading-5 text-blue-900">{{ product.name }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                            <div class="mt-1 relative rounded-md shadow-sm">
+                                <div class="custom-number-input h-10 w-32">
+                                    <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
+                                        <button @click="decrement(product)" class=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none">
+                                            <span class="m-auto text-2xl font-thin">−</span>
                                         </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                                        <input type="number" v-model="product.quantity" class="outline-none focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700  outline-none" name="custom-input-number" value="0"></input>
+                                        <button @click="increment(product)" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
+                                            <span class="m-auto text-2xl font-thin">+</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">{{ product.price+' KM' }}</td>
+                            <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
+                                <button type="button" ref="updateButton" class="px-5 py-2 rounded transition duration-300 hover:bg-blue-700 hover:text-white text-white bg-primary focus:outline-none" @click="addToCart(product)">
+                                    <i class="fal fa-shopping-cart"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="col-lg-3 mb-4">
-                <shopping-cart inline-template :items="cartItems">
+            <div class="w-full sm:w-full md:w-1/2 lg:w-1/4 xl:w-1/4 mt-5 px-2">
+            <h1>Korpa</h1>
+                 <shopping-cart inline-template :items="cartItems">
                   <div>
-                    <div class="row mt-4" v-for="(item, index) in items" >
-                        <div class="col-md-12">
-                            <h5 class="title">{{ item.name }}</h5>
+                      <div v-for="(item, index) in items">
+                        <div class="w-full sm:w-full md:w-full lg:w-full xl:w-full mt-5 px-2">
+                            <h3>{{ item.name }}</h3>
                         </div>
-                        <div class="col-md-8">
-                            <strong>{{item.price | formatCurrency}} KM x {{item.quantity | formatCurrency}}</strong>
+                        <div class="grid grid-cols-3 gap-4 mt-5 px-2">
+                            <div class="col-span-2">
+                                <h3>{{item.price | formatCurrency}} KM x {{item.quantity | formatCurrency}}</h3>
+                            </div>
+                            <div class="">
+                                <button type="button" @click="removeItem(item.id, index)" class="px-5 py-2 rounded transition duration-300 hover:bg-blue-700 hover:text-white text-white bg-red-500 focus:outline-none">
+                                    <i class="fal fa-trash"></i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="col-md-4">
-                            <button class="btn-danger btn btn-block" @click="removeItem(item.id, index)">
-                                <i class="fal fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="row mt-4 text-center" v-show="items.length === 0">
-                        <div class="col-md-12">
+                        <div v-show="items.length === 0">
                             <h4>
                                 <i class="fal fa-shopping-cart fa-3x"></i>
                             </h4>
                             <h4>Vaša korpa je prazna</h4>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="row mt-4" v-show="items.length > 0">
-                        <div class="col-md-4">
-                            <h4>Ukupno:</h4>
-                        </div>
-                        <div class="col-md-8">
-                            <h4>{{Total | formatCurrency}} KM</h4>
-                        </div>
-                    </div>
-                    <div class="row mt-4" v-show="items.length > 0">
-                        <div class="col-md-12">
-                            <button type="button" class="btn btn-primary btn-block">
-                                NARUČITE
+                        <div v-show="items.length > 0">
+                            <h2>Ukupno:</h2>
+                            <h2>{{Total | formatCurrency}} KM</h2>
+                            <button type="button" @click="removeItem(item.id, index)" class="w-full px-5 py-2 my-4 rounded transition duration-300 hover:bg-blue-700 hover:text-white text-white bg-primary focus:outline-none">
+                                <i class="fal fa-trash"></i> NARUČI
                             </button>
                         </div>
                     </div>
@@ -121,11 +113,11 @@
                   <!-- /.container -->
                </shopping-cart>
             </div>
-        </div>
     </div>
 </template>
 
 <script>
+
 
 function formatNumber(n, c, d, t) {
 	var c = isNaN((c = Math.abs(c))) ? 2 : c,
@@ -241,6 +233,15 @@ Vue.component("shopping-cart", {
         },
 
         methods: {
+            
+            decrement(item) {
+                item.quantity -= 1
+            },
+
+            increment(item) {
+                item.quantity += 1
+            },
+
             loadCategories: function () {
                 axios.get('/api/categories', {
                         params: _.omit(this.selected, 'categories')
@@ -381,3 +382,31 @@ Vue.component("shopping-cart", {
         }
     }
 </script>
+
+<style>
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.custom-number-input input:focus {
+  outline: none !important;
+}
+
+.custom-number-input button:focus {
+  outline: none !important;
+}
+
+button span {
+  line-height: 35px;
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(calc(50% - 60px));
+  transform: translateY(calc(50% - 60px));
+}
+</style>

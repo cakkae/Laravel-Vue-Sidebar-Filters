@@ -4,6 +4,7 @@ import {BadgerAccordion, BadgerAccordionItem} from 'vue-badger-accordion'
 window.Vue = require('vue');
 
 Vue.component('front-page', require('./components/Front.vue').default);
+Vue.component('navbar', require('./components/Navbar.vue').default);
 Vue.component('BadgerAccordion', BadgerAccordion);
 Vue.component('BadgerAccordionItem', BadgerAccordionItem);
 

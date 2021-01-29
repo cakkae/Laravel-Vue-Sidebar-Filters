@@ -1,17 +1,17 @@
-<div class="col-lg-9">
-    <div class="row mt-4">
+<div class="lg:w-3/4 pr-4 pl-4">
+    <div class="flex flex-wrap  mt-4">
         @foreach($products as $product)
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card h-100">
+            <div class="lg:w-1/3 pr-4 pl-4 md:w-1/2 pr-4 pl-4 mb-4">
+                <div class="relative flex flex-col min-w-0 rounded break-words border bg-white border-1 border-gray-300 h-full">
                     <a href="#">
-                        <img class="card-img-top" src="http://placehold.it/700x400" alt="">
+                        <img class="w-full rounded rounded-t" src="http://placehold.it/700x400" alt="">
                     </a>
-                    <div class="card-body">
-                        <h4 class="card-title">
+                    <div class="flex-auto p-6">
+                        <h4 class="mb-3">
                             <a href="#">{{ $product->name }}</a>
                         </h4>
                         <h5>$ {{ number_format($product->price / 100, 2) }}</h5>
-                        <p class="card-text">{{ $product->description }}</p>
+                        <p class="mb-0">{{ $product->description }}</p>
                     </div>
                 </div>
             </div>

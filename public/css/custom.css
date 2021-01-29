@@ -201,3 +201,14 @@ a.navbar-brand, .navbar-brand, a.nav-link, .nav-link {
     color: white;
     text-decoration: none !important;
 }
+
+
+
+
+.bg-primary {
+    background-color: #008b8b !important;
+}
+
+.bg-secondary {
+    background-color: #006E6E !important;
+}
