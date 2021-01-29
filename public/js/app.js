@@ -2047,19 +2047,47 @@ Vue.filter("formatCurrency", function (value) {
 });
 Vue.component("shopping-cart", {
   props: ["items"],
+  data: function data() {
+    return {
+      cartItems: []
+    };
+  },
   computed: {
     Total: function Total() {
       var total = 0;
       this.items.forEach(function (item) {
-        total += item.price * item.qty;
+        total += item.price * item.quantity;
       });
       return total;
     }
   },
   methods: {
     // Remove item by its index
-    removeItem: function removeItem(index) {
-      this.items.splice(index, 1);
+    removeItem: function removeItem(id, index) {
+      var _this = this;
+
+      axios.post('/api/remove', {
+        user: this.$userId,
+        id: id
+      }).then(function (response) {
+        return _this.items.splice(index, 1);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    updateCart: function updateCart(itemToAdd) {
+      var itemInCart = this.cartItems.filter(function (item) {
+        return item.id === itemToAdd.id;
+      });
+      axios.post('/api/update', {
+        user: this.$userId,
+        id: itemToAdd.id,
+        quantity: itemToAdd.quantity
+      }).then(function (response) {
+        return itemInCart.quantity = itemToAdd.quantity;
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   }
 });
@@ -2087,6 +2115,7 @@ Vue.component("shopping-cart", {
     this.loadManufacturers();
     this.loadPrices();
     this.loadProducts();
+    this.loadCart();
   },
   watch: {
     selected: {
@@ -2103,18 +2132,33 @@ Vue.component("shopping-cart", {
   },
   methods: {
     loadCategories: function loadCategories() {
-      var _this = this;
+      var _this2 = this;
 
       axios.get('/api/categories', {
         params: _.omit(this.selected, 'categories')
       }).then(function (response) {
-        _this.categories = response.data.data;
+        _this2.categories = response.data.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    loadCart: function loadCart() {
+      var _this3 = this;
+
+      axios.get('/api/cart', {
+        params: {
+          user: this.$userId
+        }
+      }).then(function (response) {
+        for (var i = 1; i < Object.keys(response.data).length; i++) {
+          _this3.cartItems.push(Vue.util.extend({}, response.data[i]));
+        }
       })["catch"](function (error) {
         console.log(error);
       });
     },
     addToCart: function addToCart(itemToAdd) {
-      var _this2 = this;
+      var _this4 = this;
 
       var found = false;
       var itemInCart = this.cartItems.filter(function (item) {
@@ -2123,27 +2167,44 @@ Vue.component("shopping-cart", {
       var isItemInCart = itemInCart.length > 0;
 
       if (isItemInCart === false) {
-        this.cartItems.push(Vue.util.extend({}, itemToAdd));
-        axios.post('/api/add', itemToAdd).then(function (response) {
-          return _this2.cartItems.push(Vue.util.extend({}, itemToAdd));
+        axios.post('/api/add', {
+          user: this.$userId,
+          id: itemToAdd.id,
+          name: itemToAdd.name,
+          price: itemToAdd.price,
+          quantity: itemToAdd.quantity
+        }).then(function (response) {
+          if (response.data.status) {
+            _this4.cartItems.push(Vue.util.extend({}, itemToAdd));
+
+            alert(response.data.message);
+          } else alert(response.data.message);
         })["catch"](function (error) {
+          console.log(response.data.status);
           console.log(error);
         });
       } else {
-        axios.post('/api/add', itemToAdd).then(function (response) {
-          return itemInCart[0].qty += itemToAdd.qty;
+        axios.post('/api/update', {
+          user: this.$userId,
+          id: itemToAdd.id,
+          quantity: itemToAdd.quantity
+        }).then(function (response) {
+          if (response.data.status) {
+            itemInCart[0].quantity += itemToAdd.quantity;
+            alert(response.data.message);
+          } else alert(response.data.message);
         })["catch"](function (error) {
           console.log(error);
         });
       }
     },
     loadParents: function loadParents() {
-      var _this3 = this;
+      var _this5 = this;
 
       axios.get('/api/parents', {
         params: _.omit(this.selected, 'parents')
       }).then(function (response) {
-        _this3.parents = response.data.data;
+        _this5.parents = response.data.data;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2161,37 +2222,37 @@ Vue.component("shopping-cart", {
             });
     },*/
     loadProducts: function loadProducts() {
-      var _this4 = this;
+      var _this6 = this;
 
       axios.get('/api/products', {
         params: this.selected
       }).then(function (response) {
-        _this4.products = response.data.data;
-        _this4.loading = false;
+        _this6.products = response.data.data;
+        _this6.loading = false;
       })["catch"](function (error) {
         console.log(error);
       });
     },
     loadManufacturers: function loadManufacturers() {
-      var _this5 = this;
+      var _this7 = this;
 
       axios.get('/api/manufacturers', {
         params: _.omit(this.selected, 'manufacturers')
       }).then(function (response) {
-        _this5.manufacturers = response.data.data;
-        _this5.loading = false;
+        _this7.manufacturers = response.data.data;
+        _this7.loading = false;
       })["catch"](function (error) {
         console.log(error);
       });
     },
     loadPrices: function loadPrices() {
-      var _this6 = this;
+      var _this8 = this;
 
       axios.get('/api/prices', {
         params: _.omit(this.selected, 'prices')
       }).then(function (response) {
-        _this6.prices = response.data;
-        _this6.loading = false;
+        _this8.prices = response.data;
+        _this8.loading = false;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -40069,19 +40130,23 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: product.qty,
-                                expression: "product.qty"
+                                value: product.quantity,
+                                expression: "product.quantity"
                               }
                             ],
                             staticClass: "form-control quantity",
                             attrs: { type: "number" },
-                            domProps: { value: product.qty },
+                            domProps: { value: product.quantity },
                             on: {
                               input: function($event) {
                                 if ($event.target.composing) {
                                   return
                                 }
-                                _vm.$set(product, "qty", $event.target.value)
+                                _vm.$set(
+                                  product,
+                                  "quantity",
+                                  $event.target.value
+                                )
                               }
                             }
                           })
@@ -40099,6 +40164,8 @@ var render = function() {
                           _c(
                             "button",
                             {
+                              ref: "updateButton",
+                              refInFor: true,
                               staticClass: "btn-primary btn btn-block",
                               attrs: { type: "button" },
                               on: {
@@ -40148,19 +40215,23 @@ var render = function() {
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: item.qty,
-                                  expression: "item.qty"
+                                  value: item.quantity,
+                                  expression: "item.quantity"
                                 }
                               ],
-                              staticClass: "form-control input-qty",
+                              staticClass: "form-control input-quantity",
                               attrs: { type: "number" },
-                              domProps: { value: item.qty },
+                              domProps: { value: item.quantity },
                               on: {
                                 input: function($event) {
                                   if ($event.target.composing) {
                                     return
                                   }
-                                  _vm.$set(item, "qty", $event.target.value)
+                                  _vm.$set(
+                                    item,
+                                    "quantity",
+                                    $event.target.value
+                                  )
                                 }
                               }
                             })
@@ -40173,7 +40244,7 @@ var render = function() {
                                 staticClass: "btn-danger btn btn-block",
                                 on: {
                                   click: function($event) {
-                                    return _vm.removeItem(index)
+                                    return _vm.removeItem(item.id, index)
                                   }
                                 }
                               },
@@ -40187,7 +40258,9 @@ var render = function() {
                                 "Ukupno: " +
                                   _vm._s(_vm._f("formatCurrency")(item.price)) +
                                   " KM x " +
-                                  _vm._s(_vm._f("formatCurrency")(item.qty))
+                                  _vm._s(
+                                    _vm._f("formatCurrency")(item.quantity)
+                                  )
                               )
                             ])
                           ])
@@ -52490,6 +52563,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 Vue.component('front-page', __webpack_require__(/*! ./components/Front.vue */ "./resources/js/components/Front.vue")["default"]);
 Vue.component('BadgerAccordion', vue_badger_accordion__WEBPACK_IMPORTED_MODULE_0__["BadgerAccordion"]);
 Vue.component('BadgerAccordionItem', vue_badger_accordion__WEBPACK_IMPORTED_MODULE_0__["BadgerAccordionItem"]);
+Vue.prototype.$userId = document.querySelector("meta[name='user-id']").getAttribute('content');
 var app = new Vue({
   el: '#app'
 });

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     @if (Auth::check())
-        <meta name="user_id" content="{{ Auth::user()->id }}" />
+        <meta name="user-id" content="{{ Auth::user()->id }}">
     @endif
     <title>Proxy - Shop</title>
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">

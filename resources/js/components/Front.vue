@@ -59,7 +59,7 @@
                                         </dl>
                                     </td>
                                     <td>
-                                        <input type="number" v-model="product.qty" class="form-control quantity">
+                                        <input type="number" v-model="product.quantity" class="form-control quantity">
                                     </td>
                                     <td>
                                         <div class="price-wrap">
@@ -67,7 +67,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn-primary btn btn-block" @click="addToCart(product)">
+                                        <button type="button" ref="updateButton" class="btn-primary btn btn-block" @click="addToCart(product)">
                                             <i class="fal fa-shopping-cart"></i>
                                         </button>
                                     </td>
@@ -85,15 +85,15 @@
                             <h6 class="title">{{ item.name }}</h6>
                         </div>
                         <div class="col-md-8">
-                            <input v-model="item.qty" class="form-control input-qty" type="number">
+                            <input v-model="item.quantity" class="form-control input-quantity" type="number">
                         </div>
                         <div class="col-md-4">
-                            <button class="btn-danger btn btn-block" @click="removeItem(index)">
+                            <button class="btn-danger btn btn-block" @click="removeItem(item.id, index)">
                                 <i class="fal fa-trash"></i>
                             </button>
                         </div>
                         <div class="col-md-12">
-                            <strong>Ukupno: {{item.price | formatCurrency}} KM x {{item.qty | formatCurrency}}</strong>
+                            <strong>Ukupno: {{item.price | formatCurrency}} KM x {{item.quantity | formatCurrency}}</strong>
                         </div>
                     </div>
                     <div class="row mt-4 text-center" v-show="items.length === 0">
@@ -151,11 +151,17 @@ Vue.filter("formatCurrency", function (value) {
 Vue.component("shopping-cart", {
 	props: ["items"],
 
+    data: function () {
+        return {
+            cartItems: [],
+        }
+    },
+
 	computed: {
 		Total() {
 			let total = 0;
 			this.items.forEach((item) => {
-				total += item.price * item.qty;
+				total += item.price * item.quantity;
 			});
 			return total;
 		}
@@ -163,9 +169,29 @@ Vue.component("shopping-cart", {
 
 	methods: {
 		// Remove item by its index
-		removeItem(index) {
-			this.items.splice(index, 1);
-		}
+		removeItem(id, index) {
+             axios.post('/api/remove', {
+                    user: this.$userId,
+                    id: id
+                })
+                .then(response =>  this.items.splice(index, 1))
+                .catch(error => {
+                    console.log(error);
+            });
+        },
+
+        updateCart(itemToAdd) {
+            let itemInCart = this.cartItems.filter(item => item.id===itemToAdd.id);
+            axios.post('/api/update', {
+                    user: this.$userId,
+                    id: itemToAdd.id,
+                    quantity: itemToAdd.quantity
+                })
+                .then(response =>  itemInCart.quantity = itemToAdd.quantity)
+                .catch(error => {
+                    console.log(error);
+            });
+        },
 	}
 });
     export default {
@@ -193,6 +219,7 @@ Vue.component("shopping-cart", {
             this.loadManufacturers();
             this.loadPrices();
             this.loadProducts();
+            this.loadCart();
         },
 
         watch: {
@@ -222,25 +249,66 @@ Vue.component("shopping-cart", {
                     });
             },
 
+            loadCart: function () {
+                    axios.get('/api/cart', {
+                        params: {
+                            user: this.$userId
+                        }
+                    })
+                    .then((response) => {
+                        for(var i=1;i<Object.keys(response.data).length;i++)
+                            this.cartItems.push(Vue.util.extend({}, response.data[i]));
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+
             addToCart(itemToAdd) {
                 let found = false;
                 let itemInCart = this.cartItems.filter(item => item.id===itemToAdd.id);
                 let isItemInCart = itemInCart.length > 0;
 
                 if (isItemInCart === false) {
-                    this.cartItems.push(Vue.util.extend({}, itemToAdd));
-                    axios.post('/api/add', itemToAdd)
-                        .then(response => this.cartItems.push(Vue.util.extend({}, itemToAdd)))
+                    axios.post('/api/add', {
+                            user: this.$userId,
+                            id: itemToAdd.id,
+                            name: itemToAdd.name,
+                            price: itemToAdd.price,
+                            quantity: itemToAdd.quantity
+                        })
+                        .then((response) => {
+                            if(response.data.status)
+                            {
+                                this.cartItems.push(Vue.util.extend({}, itemToAdd));
+                                alert(response.data.message)
+                            }
+                            else
+                                alert(response.data.message)
+                        })
                         .catch(error => {
+                            console.log(response.data.status);
                             console.log(error);
                         });
                 } else
                 {
-                    axios.post('/api/add', itemToAdd)
-                        .then(response =>  itemInCart[0].qty += itemToAdd.qty)
+                    axios.post('/api/update', {
+                            user: this.$userId,
+                            id: itemToAdd.id,
+                            quantity: itemToAdd.quantity
+                        })
+                        .then((response) => {
+                            if(response.data.status)
+                            {
+                                itemInCart[0].quantity += itemToAdd.quantity
+                                alert(response.data.message)
+                            }
+                            else
+                                alert(response.data.message)
+                        })
                         .catch(error => {
                             console.log(error);
-                        });
+                    });
                 }
             },
 

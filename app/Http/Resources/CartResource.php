@@ -13,8 +13,7 @@ class CartResource extends JsonResource
      * @return array
      */
     public function toArray($request)
-    {   
-        dd($user);
+    {
         return [
             'data' => \Cart::session($this->user->first()->id)->getContent()
         ];
