@@ -28,7 +28,7 @@
                 </div>
                 <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                     <div class="flex-shrink-0 flex items-center">
-                        <span style="color: white;">Proxy Shop</span>
+                        <span style="color: white; font-size: 20px; font-weight: bold;">PROXY SHOP</span>
                     </div>
                     <div class="hidden sm:block sm:ml-6">
                     <div class="flex space-x-4">

@@ -20,3 +20,6 @@ Route::get('/welcome', function () {
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/shop', 'HomeController@index')->name('shop');
 
+// checkout
+Route::get('/checkout', 'CheckoutController@index')->name('checkout.index');
+

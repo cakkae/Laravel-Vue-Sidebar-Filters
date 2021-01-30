@@ -2024,6 +2024,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 function formatNumber(n, c, d, t) {
   var c = isNaN(c = Math.abs(c)) ? 2 : c,
       d = d === undefined ? "." : d,
@@ -2200,8 +2201,6 @@ Vue.component("shopping-cart", {
               text: response.data.message
             });
           }
-
-          alert();
         })["catch"](function (error) {
           console.log(response.data.status);
           console.log(error);
@@ -7733,7 +7732,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "input[type=\"number\"]::-webkit-inner-spin-button,\r\ninput[type=\"number\"]::-webkit-outer-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n.custom-number-input input:focus {\n  outline: none !important;\n}\n.custom-number-input button:focus {\n  outline: none !important;\n}\nbutton span {\n  line-height: 35px;\n}\n.vertical-center {\n  margin: 0;\n  position: absolute;\n  top: 50%;\n  transform: translateY(calc(50% - 60px));\n}\r\n", ""]);
+exports.push([module.i, "input[type=\"number\"]::-webkit-inner-spin-button,\ninput[type=\"number\"]::-webkit-outer-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n.custom-number-input input:focus {\n  outline: none !important;\n}\n.custom-number-input button:focus {\n  outline: none !important;\n}\nbutton span {\n  line-height: 35px;\n}\n.vertical-center {\n  margin: 0;\n  position: absolute;\n  top: 50%;\n  transform: translateY(calc(50% - 60px));\n}\n", ""]);
 
 // exports
 
@@ -40665,13 +40664,12 @@ var render = function() {
                   _c(
                     "td",
                     {
-                      staticClass:
-                        "px-6 py-4 whitespace-no-wrap border-b border-gray-500"
+                      staticClass: "whitespace-no-wrap border-b border-gray-500"
                     },
                     [
                       _c(
                         "div",
-                        { staticClass: "text-sm leading-5 text-blue-900" },
+                        { staticClass: "text-sm leading-5 text-green-900" },
                         [_vm._v(_vm._s(product.name))]
                       )
                     ]
@@ -40681,7 +40679,7 @@ var render = function() {
                     "td",
                     {
                       staticClass:
-                        "px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5"
+                        "px-6 py-4 whitespace-no-wrap border-b text-green-900 border-gray-500 text-sm leading-5"
                     },
                     [
                       _c(
@@ -40788,7 +40786,8 @@ var render = function() {
                     "td",
                     {
                       staticClass:
-                        "px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5"
+                        "whitespace-no-wrap border-b text-green-900 border-gray-500 text-sm text-center leading-5",
+                      staticStyle: { "font-weight": "bold" }
                     },
                     [_vm._v(_vm._s(product.price + " KM"))]
                   ),
@@ -40832,6 +40831,8 @@ var render = function() {
           staticClass: "w-full sm:w-full md:w-1/2 lg:w-1/4 xl:w-1/4 mt-5 px-2"
         },
         [
+          _c("h1", [_vm._v("Korpa")]),
+          _vm._v(" "),
           _c("shopping-cart", {
             attrs: { items: _vm.cartItems },
             inlineTemplate: {
@@ -40917,7 +40918,8 @@ var render = function() {
                             value: _vm.items.length === 0,
                             expression: "items.length === 0"
                           }
-                        ]
+                        ],
+                        staticClass: "text-center content-center"
                       },
                       [
                         _vm._m(0),
@@ -41009,7 +41011,7 @@ var staticRenderFns = [
           "th",
           {
             staticClass:
-              "px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider"
+              "px-6 py-3 border-b-2 border-gray-300 text-left leading-4  tracking-wider"
           },
           [_vm._v("Proizvod")]
         ),
@@ -41018,7 +41020,7 @@ var staticRenderFns = [
           "th",
           {
             staticClass:
-              "px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider"
+              "px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4  tracking-wider"
           },
           [_vm._v("Kolicina")]
         ),
@@ -41027,7 +41029,7 @@ var staticRenderFns = [
           "th",
           {
             staticClass:
-              "px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider"
+              "px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4  tracking-wider"
           },
           [_vm._v("Cijena")]
         ),
@@ -41036,7 +41038,7 @@ var staticRenderFns = [
           "th",
           {
             staticClass:
-              "px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider"
+              "px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4  tracking-wider"
           },
           [_vm._v("Akcija")]
         )
@@ -41393,9 +41395,17 @@ var staticRenderFns = [
       },
       [
         _c("div", { staticClass: "flex-shrink-0 flex items-center" }, [
-          _c("span", { staticStyle: { color: "white" } }, [
-            _vm._v("Proxy Shop")
-          ])
+          _c(
+            "span",
+            {
+              staticStyle: {
+                color: "white",
+                "font-size": "20px",
+                "font-weight": "bold"
+              }
+            },
+            [_vm._v("PROXY SHOP")]
+          )
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "hidden sm:block sm:ml-6" }, [
@@ -53907,8 +53917,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\User\Documents\GitHub\_shop\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\User\Documents\GitHub\_shop\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\cakka\Documents\Laravel-Vue-Sidebar-Filters\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\cakka\Documents\Laravel-Vue-Sidebar-Filters\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

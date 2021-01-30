@@ -41,18 +41,18 @@
                 <table class="min-w-full">
                     <thead>
                         <tr>
-                            <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">Proizvod</th>
-                            <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">Kolicina</th>
-                            <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">Cijena</th>
-                            <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">Akcija</th>
+                            <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4  tracking-wider">Proizvod</th>
+                            <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4  tracking-wider">Kolicina</th>
+                            <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4  tracking-wider">Cijena</th>
+                            <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4  tracking-wider">Akcija</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white">
                         <tr v-for="product in products">
-                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                                <div class="text-sm leading-5 text-blue-900">{{ product.name }}</div>
+                            <td class="whitespace-no-wrap border-b border-gray-500">
+                                <div class="text-sm leading-5 text-green-900">{{ product.name }}</div>
                             </td>
-                            <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                            <td class="px-6 py-4 whitespace-no-wrap border-b text-green-900 border-gray-500 text-sm leading-5">
                             <div class="mt-1 relative rounded-md shadow-sm">
                                 <div class="custom-number-input h-10 w-32">
                                     <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
@@ -67,7 +67,7 @@
                                 </div>
                             </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">{{ product.price+' KM' }}</td>
+                            <td class="whitespace-no-wrap border-b text-green-900 border-gray-500 text-sm text-center leading-5" style="font-weight: bold;">{{ product.price+' KM' }}</td>
                             <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
                                 <button type="button" ref="updateButton" class="px-5 py-2 rounded transition duration-300 hover:bg-blue-700 hover:text-white text-white bg-primary focus:outline-none" @click="addToCart(product)">
                                     <i class="fal fa-shopping-cart"></i>
@@ -78,6 +78,7 @@
                 </table>
             </div>
             <div class="w-full sm:w-full md:w-1/2 lg:w-1/4 xl:w-1/4 mt-5 px-2">
+            <h1>Korpa</h1>
                  <shopping-cart inline-template :items="cartItems">
                    <div>
                       <div v-for="(item, index) in items" class="cart-container">
@@ -95,7 +96,7 @@
                             </div>
                         </div>
                         </div>
-                    <div v-show="items.length === 0">
+                    <div class="text-center content-center" v-show="items.length === 0">
                         <h4>
                             <i class="fal fa-shopping-cart fa-3x"></i>
                         </h4>
@@ -249,7 +250,7 @@ Vue.component("shopping-cart", {
         },
 
         methods: {
-            
+
             decrement(item) {
                 item.quantity -= 1
             },
@@ -321,9 +322,8 @@ Vue.component("shopping-cart", {
                                     title: "Greška!",
                                     text: response.data.message
                                     },
-                                );   
+                                );
                             }
-                                alert()
                         })
                         .catch(error => {
                             console.log(response.data.status);
@@ -360,7 +360,7 @@ Vue.component("shopping-cart", {
                                     4000
                                 );
                             }
-                                
+
                         })
                         .catch(error => {
                             console.log(error);
