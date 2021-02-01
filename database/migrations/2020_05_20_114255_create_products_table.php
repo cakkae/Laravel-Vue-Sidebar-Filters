@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained();
             $table->string('name');
+            $table->string('code')->nullable();
             $table->text('description')->nullable();
             $table->float('quantity');
             $table->float('price');

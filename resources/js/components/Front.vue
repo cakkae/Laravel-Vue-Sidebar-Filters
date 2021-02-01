@@ -24,14 +24,14 @@
                                     </label>
                                 </div>
                             </template>
-                            <template slot="content" v-else>
+                            <!-- <template slot="content" v-else>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" :value="parent.id" :id="'parent'+index" v-model="selected.categories">
                                     <label class="form-check-label" :for="'parent' + index">
                                         {{ parent.name }} ({{ parent.products_count }})
                                     </label>
                                 </div>
-                            </template>
+                            </template> -->
                         </badger-accordion-item>
                     </badger-accordion>
                 </div>

@@ -7732,7 +7732,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "input[type=\"number\"]::-webkit-inner-spin-button,\ninput[type=\"number\"]::-webkit-outer-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n.custom-number-input input:focus {\n  outline: none !important;\n}\n.custom-number-input button:focus {\n  outline: none !important;\n}\nbutton span {\n  line-height: 35px;\n}\n.vertical-center {\n  margin: 0;\n  position: absolute;\n  top: 50%;\n  transform: translateY(calc(50% - 60px));\n}\n", ""]);
+exports.push([module.i, "input[type=\"number\"]::-webkit-inner-spin-button,\r\ninput[type=\"number\"]::-webkit-outer-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n.custom-number-input input:focus {\n  outline: none !important;\n}\n.custom-number-input button:focus {\n  outline: none !important;\n}\nbutton span {\n  line-height: 35px;\n}\n.vertical-center {\n  margin: 0;\n  position: absolute;\n  top: 50%;\n  transform: translateY(calc(50% - 60px));\n}\r\n", ""]);
 
 // exports
 
@@ -40549,87 +40549,7 @@ var render = function() {
                                   )
                                 ])
                               ])
-                            : _c("template", { slot: "content" }, [
-                                _c("div", { staticClass: "form-check" }, [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.selected.categories,
-                                        expression: "selected.categories"
-                                      }
-                                    ],
-                                    staticClass: "form-check-input",
-                                    attrs: {
-                                      type: "checkbox",
-                                      id: "parent" + index
-                                    },
-                                    domProps: {
-                                      value: parent.id,
-                                      checked: Array.isArray(
-                                        _vm.selected.categories
-                                      )
-                                        ? _vm._i(
-                                            _vm.selected.categories,
-                                            parent.id
-                                          ) > -1
-                                        : _vm.selected.categories
-                                    },
-                                    on: {
-                                      change: function($event) {
-                                        var $$a = _vm.selected.categories,
-                                          $$el = $event.target,
-                                          $$c = $$el.checked ? true : false
-                                        if (Array.isArray($$a)) {
-                                          var $$v = parent.id,
-                                            $$i = _vm._i($$a, $$v)
-                                          if ($$el.checked) {
-                                            $$i < 0 &&
-                                              _vm.$set(
-                                                _vm.selected,
-                                                "categories",
-                                                $$a.concat([$$v])
-                                              )
-                                          } else {
-                                            $$i > -1 &&
-                                              _vm.$set(
-                                                _vm.selected,
-                                                "categories",
-                                                $$a
-                                                  .slice(0, $$i)
-                                                  .concat($$a.slice($$i + 1))
-                                              )
-                                          }
-                                        } else {
-                                          _vm.$set(
-                                            _vm.selected,
-                                            "categories",
-                                            $$c
-                                          )
-                                        }
-                                      }
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass: "form-check-label",
-                                      attrs: { for: "parent" + index }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                    " +
-                                          _vm._s(parent.name) +
-                                          " (" +
-                                          _vm._s(parent.products_count) +
-                                          ")\n                                "
-                                      )
-                                    ]
-                                  )
-                                ])
-                              ])
+                            : _vm._e()
                         })
                       ],
                       2
@@ -53917,8 +53837,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\cakka\Documents\Laravel-Vue-Sidebar-Filters\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\cakka\Documents\Laravel-Vue-Sidebar-Filters\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\User\Documents\GitHub\_shop\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\User\Documents\GitHub\_shop\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
