@@ -79,7 +79,7 @@
             </div>
             <div class="w-full sm:w-full md:w-1/2 lg:w-1/4 xl:w-1/4 mt-5 px-2">
             <h1>Korpa</h1>
-                 <shopping-cart inline-template :items="cartItems">
+                <shopping-cart inline-template :items="cartItems">
                    <div>
                       <div v-for="(item, index) in items" class="cart-container">
                         <div class="w-full sm:w-full md:w-full lg:w-full xl:w-full mt-5 px-2">

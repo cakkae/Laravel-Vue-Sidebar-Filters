@@ -2428,6 +2428,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2437,6 +2441,11 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     toggle: function toggle() {
       this.open = !this.open;
+    },
+    logout: function logout() {
+      axios.post('/logout').then(function () {
+        return location.href = '/';
+      });
     }
   }
 });
@@ -7732,7 +7741,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "input[type=\"number\"]::-webkit-inner-spin-button,\r\ninput[type=\"number\"]::-webkit-outer-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n.custom-number-input input:focus {\n  outline: none !important;\n}\n.custom-number-input button:focus {\n  outline: none !important;\n}\nbutton span {\n  line-height: 35px;\n}\n.vertical-center {\n  margin: 0;\n  position: absolute;\n  top: 50%;\n  transform: translateY(calc(50% - 60px));\n}\r\n", ""]);
+exports.push([module.i, "input[type=\"number\"]::-webkit-inner-spin-button,\ninput[type=\"number\"]::-webkit-outer-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n.custom-number-input input:focus {\n  outline: none !important;\n}\n.custom-number-input button:focus {\n  outline: none !important;\n}\nbutton span {\n  line-height: 35px;\n}\n.vertical-center {\n  margin: 0;\n  position: absolute;\n  top: 50%;\n  transform: translateY(calc(50% - 60px));\n}\n", ""]);
 
 // exports
 
@@ -41098,10 +41107,36 @@ var render = function() {
                               staticClass: "fal fa-user align-middle",
                               staticStyle: { color: "white" }
                             }),
-                            _vm._v(
-                              "\n                                " +
-                                _vm._s(this.$userName) +
-                                "\n                        "
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                staticStyle: { "text-transform": "uppercase" }
+                              },
+                              [_vm._v(_vm._s(this.$userName))]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "a",
+                          {
+                            staticClass:
+                              "text-white hover:bg-secondary px-3 py-2 rounded-md text-sm font-medium",
+                            on: { click: _vm.logout }
+                          },
+                          [
+                            _c("i", {
+                              staticClass: "fal fa-power-off align-middle",
+                              staticStyle: { color: "white", cursor: "pointer" }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                staticStyle: { "text-transform": "uppercase" }
+                              },
+                              [_vm._v("ODJAVA")]
                             )
                           ]
                         )
@@ -53837,8 +53872,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\User\Documents\GitHub\_shop\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\User\Documents\GitHub\_shop\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\cakka\Documents\Laravel-Vue-Sidebar-Filters\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\cakka\Documents\Laravel-Vue-Sidebar-Filters\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

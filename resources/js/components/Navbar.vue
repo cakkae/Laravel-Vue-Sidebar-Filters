@@ -47,7 +47,11 @@
                         <div class="px-6 py-4 whitespace-no-wrap leading-5 text-black-500">
                             <a href="#" class="text-white hover:bg-secondary px-3 py-2 rounded-md text-sm font-medium">
                                 <i class="fal fa-user align-middle" style="color: white;"></i>
-                                    {{this.$userName}}
+                                    <span style="text-transform: uppercase;">{{this.$userName}}</span>
+                            </a>
+                            <a @click="logout" class="text-white hover:bg-secondary px-3 py-2 rounded-md text-sm font-medium">
+                                <i class="fal fa-power-off align-middle" style="color: white; cursor:pointer"></i>
+                                    <span style="text-transform: uppercase;">ODJAVA</span>
                             </a>
                         </div>
                     </div>
@@ -145,6 +149,10 @@
         methods: {
             toggle() {
                 this.open = !this.open
+            },
+            logout() {
+                axios.post('/logout')
+                    .then(() => location.href = '/')
             }
         }
     }
