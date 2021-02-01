@@ -104,9 +104,9 @@
                     </div>
                     <div v-show="items.length > 0">
                         <h3 class="bg-primary text-white mt-3 py-2 px-3" style="border-radius: 5px; font-weight: bold;">Ukupno: {{Total | formatCurrency}} KM</h3>
-                        <button type="button" @click="removeItem(item.id, index)" class="w-full px-5 py-2 my-4 rounded transition duration-300 hover:bg-blue-700 hover:text-white text-white bg-primary focus:outline-none">
+                        <a type="button" :href="'/checkout'" class="w-full px-5 py-2 text-center my-4 rounded transition duration-300 hover:bg-blue-700 hover:text-white text-white bg-primary focus:outline-none">
                             <i class="fal fa-trash"></i> NARUČI
-                        </button>
+                        </a>
                     </div>
                   </div>
                   <!-- /.container -->

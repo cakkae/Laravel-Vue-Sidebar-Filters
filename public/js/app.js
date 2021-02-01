@@ -40889,16 +40889,11 @@ var render = function() {
                         ),
                         _vm._v(" "),
                         _c(
-                          "button",
+                          "a",
                           {
                             staticClass:
-                              "w-full px-5 py-2 my-4 rounded transition duration-300 hover:bg-blue-700 hover:text-white text-white bg-primary focus:outline-none",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.removeItem(_vm.item.id, _vm.index)
-                              }
-                            }
+                              "w-full px-5 py-2 text-center my-4 rounded transition duration-300 hover:bg-blue-700 hover:text-white text-white bg-primary focus:outline-none",
+                            attrs: { type: "button", href: "/checkout" }
                           },
                           [
                             _c("i", { staticClass: "fal fa-trash" }),

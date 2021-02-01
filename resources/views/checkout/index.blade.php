@@ -109,10 +109,17 @@
             </div>
         </div>
     </div>
-    <div class="border-t mt-6 pt-3">
-      <button class="bg-primary rounded w-full text-gray-100 px-3 py-4">
-        NARUČI
-      </button>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div class="border-t mt-6 pt-3 grid lg:grid-cols-1 col-span-1 gap-4">
+            <button class="bg-primary rounded w-full text-gray-100 px-3 py-4">
+                ZAVRŠI NARUDŽBU
+            </button>
+        </div>
+        <div class="border-t mt-6 pt-3 grid lg:grid-cols-1 col-span-1 gap-4">
+            <button class="bg-primary rounded w-full text-gray-100 px-3 py-4">
+                VRATI SE NA SHOP
+            </button>
+        </div>
     </div>
 </div>
 @endsection
