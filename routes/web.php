@@ -21,12 +21,11 @@ Route::namespace('Auth')->group(function () {
     Route::post('/logout','LoginController@logout')->name('logout');
 });
 
-Route::get('/welcome', function () {
-    return view('welcome');
-});
+
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/shop', 'HomeController@index')->name('shop');
 
 // checkout
 Route::get('/checkout', 'CheckoutController@index')->name('checkout.index');
+Route::post('/checkout', 'CheckoutController@store')->name('checkout.store');
 
