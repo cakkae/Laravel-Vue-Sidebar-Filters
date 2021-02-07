@@ -63,13 +63,19 @@
 
                         <div class="form-group row">
                             <div class="col-md-6">
+                                <label for="country" class="col-form-label">{{ __('Država') }}</label>
+                                <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="{{ old('country') }}" required autocomplete="country" autofocus>
+                            </div>
+                            <div class="col-md-6">
                                 <label for="city" class="col-form-label">{{ __('Grad') }}</label>
                                 <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city" value="{{ old('city') }}" required autocomplete="city" autofocus>
                             </div>
+                        </div>
 
-                            <div class="col-md-6">
-                                <label for="country" class="col-form-label">{{ __('Država') }}</label>
-                                <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="{{ old('country') }}" required autocomplete="country" autofocus>
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <label for="address" class="col-form-label">{{ __('Adresa') }}</label>
+                                <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address') }}" required autocomplete="address" autofocus>
                             </div>
                         </div>
 
@@ -107,6 +113,7 @@
             var password_confirmation = $('input[name=password_confirmation]').val();
             var zip = $('input[name=zip]').val();
             var company = $('input[name=company]').val();
+            var address = $('input[name=address]').val();
             var city = $('input[name=city]').val();
             var country = $('input[name=country]').val();
 
@@ -124,6 +131,7 @@
                     zip: zip,
                     country: country,
                     city: city,
+                    address: address,
                     company: company
                 },
                 success: function (data) {

@@ -54,9 +54,12 @@
                     </p>
                     </div>
                     <p>
-                    <input id="address" autocomplete="false" tabindex="0" name="address" type="text" class="py-1 px-1 outline-none block h-full w-full">
+                    <input id="address" autocomplete="false" tabindex="0" value="{{Auth::user()->address}}" name="address" type="text" class="py-1 px-1 outline-none block h-full w-full">
                     </p>
                 </div>
+
+                <label><input type="checkbox" name="addressCheckbox" class="addressCheckbox" onclick="$(this).attr('value', this.checked ? 1 : 0)"> Želim koristiti drugu adresu za dostavu</label>
+
                 <div class="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
                     <div class="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
                     <p>
@@ -144,7 +147,14 @@
         </div>
     </form>
 </div>
+
 @endsection
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function() {
+
+    });
+</script>
 
 <style>
     .black {
